@@ -47,15 +47,14 @@ namespace INCAL_android3
                     data[i].T_Name = _data;
 
                     Recieve(sck, ref _data);
-                    data[i].Contents = _data.Replace("<br>", "\r\n");
+                    data[i].Contents = _data;
 
                     Recieve(sck, ref _data);
                     data[i].Title = _data;
 
                     Recieve(sck, ref _data);
                     CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
-                    data[i].Date = DateTime.Parse(_data, originalCulture,
-                             DateTimeStyles.NoCurrentDateDefault);
+                    data[i].Date = Convert.ToDateTime(_data);//DateTime.Parse(_data, originalCulture,DateTimeStyles.NoCurrentDateDefault);
                     i++;
                 }
                 data_size = i;

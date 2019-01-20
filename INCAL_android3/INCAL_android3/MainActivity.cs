@@ -33,7 +33,7 @@ namespace INCAL_android3
             listView = FindViewById<ListView>(Resource.Id.listView1);
             msgText = FindViewById<TextView>(Resource.Id.msgText);
             var toolbar = FindViewById<Toolbar>(Resource.Id.toolbar);
-           
+
             SetActionBar(toolbar);
             ActionBar.Title = "INCAL";
             get_date_from_server();
@@ -44,31 +44,24 @@ namespace INCAL_android3
         void get_date_from_server()
         {
             socket sck = new socket();
-            while (true)
+            if (sck.Socket_test() == false)
             {
-                if (sck.Socket_test() == false)
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+                builder.SetPositiveButton("새로고침", (senderAlert, args) =>
                 {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    get_date_from_server();
+                });
 
-                    builder.SetPositiveButton("새로고침", (senderAlert, args) =>
-                    {
-
-                    });
-
-                    builder.SetNegativeButton("종료", (senderAlert, args) =>
-                    {
-                        Finish();
-                    });
-
-                    Android.App.AlertDialog alterDialog = builder.Create();
-                    alterDialog.SetTitle("알림");
-                    alterDialog.SetMessage("서버가 응답하지 않거나 인터넷이 연결돼 있지 않습니다. 다시 연결 하시겠습니까?");
-                    alterDialog.Show();
-                }
-                else
+                builder.SetNegativeButton("종료", (senderAlert, args) =>
                 {
-                    break;
-                }
+                    Finish();
+                });
+
+                Android.App.AlertDialog alterDialog = builder.Create();
+                alterDialog.SetTitle("알림");
+                alterDialog.SetMessage("서버가 응답하지 않거나 인터넷이 연결돼 있지 않습니다. 다시 연결 하시겠습니까?");
+                alterDialog.Show();
             }
             Datas = new List<Data>();
             for (int i = 0; i < sck.data_size; i++)
@@ -85,9 +78,9 @@ namespace INCAL_android3
 
                 if (resultTime.Days + 1 <= 3)
                 {
-                    color = Color.DarkRed; 
+                    color = Color.DarkRed;
                 }
-                if (resultTime.Days+1 == 0)
+                if (resultTime.Days + 1 == 0)
                 {
                     color = Color.Black;
                 }
@@ -118,7 +111,8 @@ namespace INCAL_android3
         }
         public override bool OnOptionsItemSelected(IMenuItem item)
         {
-            if (string.Compare(item.TitleFormatted.ToString(), "settings") == 0) { 
+            if (string.Compare(item.TitleFormatted.ToString(), "settings") == 0)
+            {
                 var intent = new Intent(this, typeof(settingspage));
                 StartActivity(intent);
             }
@@ -148,7 +142,7 @@ namespace INCAL_android3
         {
 
             var second = new Intent(this, typeof(contentspage));
-            
+
             second.PutExtra("Titlename", Datas[e.Position].Title);
             second.PutExtra("contents", Datas[e.Position].Contents);
             second.PutExtra("T_Name", Datas[e.Position].T_Name);
@@ -183,8 +177,8 @@ namespace INCAL_android3
         {
             var item = items[position];
             TimeSpan resultTime = item.Date - DateTime.Now;
-            string a = string.Format("D-" + (resultTime.Days+1));
-            if(resultTime.Days+1 == 0)
+            string a = string.Format("D-" + (resultTime.Days + 1));
+            if (resultTime.Days + 1 == 0)
             {
                 a = "D-Day";
             }

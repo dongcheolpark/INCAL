@@ -9,6 +9,7 @@ using Android.Content;
 using Android.OS;
 using Android.Runtime;
 using Android.Widget;
+using Android.Webkit;
 
 namespace INCAL_android3
 {
@@ -21,12 +22,11 @@ namespace INCAL_android3
 
             SetContentView(Resource.Layout.contentspage);
             var title = FindViewById<TextView>(Resource.Id.title);
-            var contents = FindViewById<TextView>(Resource.Id.contents);
+            var contents = FindViewById<WebView>(Resource.Id.contents);
             var T_name = FindViewById<TextView>(Resource.Id.T_name_text);
             var date = FindViewById<TextView>(Resource.Id.Date_text);
             var subject = FindViewById<TextView>(Resource.Id.Subject_text);
-            title.Text = Intent.GetStringExtra("Titlename") ?? "Data not available";
-            contents.Text = Intent.GetStringExtra("contents") ?? "Data not available";
+            contents.LoadData(Intent.GetStringExtra("contents") ?? "Data not available", "Text/Html; charset=UTF-8", null);
             T_name.Text = "선생님:" + Intent.GetStringExtra("T_Name") ?? "Data not available";
             date.Text = "기한:" + Intent.GetStringExtra("Date") ?? "Data not available" ;
             subject.Text = "과목:" + Intent.GetStringExtra("Subject") ?? "Data not available" ;
