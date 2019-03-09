@@ -3,24 +3,24 @@ using System.Net;
 using System.Net.Sockets;
 using System.Data.SQLite;
 using System.Globalization;
-using System.IO;
 using System.Threading;
 using System.Text;
-using FirebaseAdmin;
-using FirebaseAdmin.Auth;
-using Google.Apis.Auth.OAuth2;
+using System.Data.SqlClient;
+
+using System.Threading.Tasks;
 
 namespace INCAL_Server
 {
-    class ServerClass
+    public class ServerClass
     {
-        public static Socket Server, Server2, Client, Client2;
+        public static Socket Server, Server2, Server3, Client, Client2, Client3;
         public static byte[] getByte = new byte[1024];
         public static byte[] setByte = new byte[1024];
-        static string strConn = "Data Source=" + System.IO.Directory.GetCurrentDirectory() + "\\sqlite.db";
+        static string strConn = "Data Source=incal.iptime.org;Initial Catalog=INCAL;User ID=sa;Password=tr2042255";
         static SQLiteConnection conn = null;
         public const int sPort = 1501;
         public const int sport2 = 1502;
+        public const int sport3 = 1503;
         public static Command console_command;
         [STAThread]
         static void Main(string[] args)
@@ -30,13 +30,20 @@ namespace INCAL_Server
             Console.WriteLine("INCAL Server v.1.0.0");
             Server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             Server2 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            Server3 = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
             Server.Bind(serverEndPoint);
             serverEndPoint.Port = sport2;
             Server2.Bind(serverEndPoint);
+            serverEndPoint.Port = sport3;
+            Server3.Bind(serverEndPoint);
             Thread server_teacher = new Thread(new ThreadStart(Server_teacher));
             server_teacher.Start();
             Thread server_app = new Thread(new ThreadStart(Server_app));
             server_app.Start();
+            Thread server_noti = new Thread(new ThreadStart(Server_noti));
+            server_noti.Start();
+            
             while (true)
             {
                 try
@@ -50,6 +57,7 @@ namespace INCAL_Server
                 }
             }
         }
+
         public static void Server_teacher()
         {
 
@@ -90,9 +98,6 @@ namespace INCAL_Server
                                      DateTimeStyles.NoCurrentDateDefault); ;
                             Console.WriteLine("Client Message : {0}", _data);
 
-                            string sql = string.Format("insert into INCAL_DATA (Subject,T_name,Contents,Title,Date) values (\"{0}\",\"{1}\",\"{2}\",\"{3}\",\"{4}\")", data.Subject, data.T_Name, data.Contents, data.Title, data.Date.ToShortDateString());
-                            SQLiteCommand command = new SQLiteCommand(sql, conn);
-                            command.ExecuteNonQuery();
                             sendnoti();
                         }
                     }
@@ -114,7 +119,7 @@ namespace INCAL_Server
             {
                 try
                 {
-                    using (conn = new SQLiteConnection(strConn))
+                    using (SqlConnection conn = new SqlConnection(strConn))
                     {
                         conn.Open();
                         Server2.Listen(10);
@@ -123,7 +128,8 @@ namespace INCAL_Server
                         console_command.Showip(Client2);
                         if (Client2.Connected)
                         {
-                            var cmd = new SQLiteCommand("select * from INCAL_DATA", conn);
+                            DbControll.Del();
+                            var cmd = new SqlCommand("select * from Homework", conn);
                             var rdr = cmd.ExecuteReader();
                             while (rdr.Read())
                             {
@@ -139,7 +145,7 @@ namespace INCAL_Server
 
                                 Send(Client2, (string)rdr["Title"]);
 
-                                Send(Client2, (string)rdr["Date"]);
+                                Send(Client2, Convert.ToDateTime(rdr["date"]).ToString("dd/MM/yyyy"));
                             }
                             Send(Client2, "EOF");
                             rdr.Close();
@@ -154,6 +160,18 @@ namespace INCAL_Server
                 catch (System.Exception commonEx)
                 {
                     Console.WriteLine("[Error]:{0}", commonEx.Message);
+                }
+            }
+        }
+
+        public static void Server_noti()
+        {
+            while (true) {
+                Server3.Listen(10);
+                Client3 = Server3.Accept();
+
+                if(Client3.Connected) { 
+                    sendnoti();
                 }
             }
         }
@@ -208,6 +226,16 @@ namespace INCAL_Server
             Console.WriteLine("알림을 정상적으로 발신했습니다.");
         }
     }
+    public static class DbControll
+    {
+        public static void Del()
+        {
+            string strConn = "Data Source=incal.iptime.org;Initial Catalog=INCAL;User ID=sa;Password=tr2042255";
+            using (SqlConnection conn = new SqlConnection(strConn)) { 
+                var cmd = new SqlCommand("delete from Homework where Date < GETDATE()", conn);
+            }
+        }
+    }
     public class Command
     {
         private SQLiteConnection sqlconn;
@@ -219,9 +247,9 @@ namespace INCAL_Server
         public void Showip(Socket Client)
         {
             Console.WriteLine("{0} \"{1}\" IP connected",DateTime.Now.ToLocalTime(), Client.RemoteEndPoint.ToString());
-            string sql = string.Format("insert into Log (IPAdress,Date) values (\"{0}\",\"{0}\")", DateTime.Now.ToLocalTime() + DateTime.Now.ToLongDateString(), Client.RemoteEndPoint.ToString());
-            SQLiteCommand command = new SQLiteCommand(sql, sqlconn);
-            command.ExecuteNonQuery();
+            //string sql = string.Format("insert into Log (IPAdress,Date) values (\"{0}\",\"{0}\")", DateTime.Now.ToLocalTime() + DateTime.Now.ToLongDateString(), Client.RemoteEndPoint.ToString());
+            //SQLiteCommand command = new SQLiteCommand(sql, sqlconn);
+            //command.ExecuteNonQuery();
 
         }
         public void CommandLine()

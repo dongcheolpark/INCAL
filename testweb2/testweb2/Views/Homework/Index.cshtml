@@ -1,0 +1,65 @@
+﻿@model IEnumerable<MvcMovie.Models.Homework>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>과제</h2>
+
+<table class="table">
+    <colgroup>
+        <col style="width:10%" />
+        <col style="width:10%" />
+        <col/>
+        <col style="width:10%" />
+    </colgroup>
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">
+                과목
+            </th>
+            <th scope="col">
+                선생님이름
+            </th>
+            <th scope="col">
+                제목
+            </th>
+            <th scope="col">
+                기한
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td scope="col">
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td scope="col">
+                    @Html.DisplayFor(modelItem => item.T_Name)
+                </td>
+                <td scope="col">
+                    <a class="text-body" href="/homework/details/@item.NoteNo">@item.Title</a>
+                </td>
+                <td scope="col">
+                    @item.Date.ToShortDateString()
+                </td>
+                @try
+                {
+                    if (Session["UserName"] != null && string.Compare(Session["UserClass"].ToString(), "admin") == 0)
+                    {
+                        <td scope="col">
+                            @Html.ActionLink("Edit", "Edit", new { id = item.NoteNo }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.NoteNo }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.NoteNo })
+                        </td>
+                    }
+                }
+                catch (Exception E) {
+                }
+            </tr>
+        }
+
+    </thead>
+</table>

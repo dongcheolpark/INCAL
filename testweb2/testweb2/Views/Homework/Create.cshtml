@@ -1,0 +1,128 @@
+﻿@model MvcMovie.Models.Homework
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-input">
+    <h4>Homework</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">과목</span>
+        </div>
+        <input type="text" class="form-control" id="basic-url" name="Subject" aria-describedby="basic-addon3">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">선생님 성함</span>
+        </div>
+        <input type="text" class="form-control" id="basic-url" name="T_name" aria-describedby="basic-addon3">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">제목</span>
+        </div>
+        <input type="text" class="form-control" id="title" name="Title" aria-describedby="basic-addon3">
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon3">날짜</span>
+        </div>
+        <input type="text" class="form-control" id="Datepick" name="Date" aria-describedby="basic-addon3">
+        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        <div class="mb-3">
+            <textarea id="summernote" name="Contents"></textarea>
+            <div class="output"></div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#summernote').summernote({
+            height: 700,
+            minHeight: null,
+            maxHeight: 200,
+            focus: true,
+        });
+    });
+
+    $("#title").click(function () {
+        alert("ㅋㄹ릭햇다");
+    })
+
+    function sendFile(file) {
+        var form_data = new FormData();
+        form_data.append('file', file);
+        $.ajax({
+            data: form_data,
+            type: "POST",
+            url: 'Image',
+            cache: false,
+            contentType: false,
+            enctype: 'multipart/form-data',
+            processData: false,
+            success: function (url) {
+                $('#summernote').summernote('insertImage', url);
+            }
+        });
+    }
+    $('#summernote').summernote({
+	toolbar: [
+		// [groupName, [list of button]]
+		['style', ['style']],
+		['font', ['bold', 'italic', 'underline', 'clear']],
+		['fontname', ['fontname']],
+		['color', ['color']],
+		['para', ['ul', 'ol', 'paragraph']],
+		['height', ['height']],
+		['table', ['table']],
+		['insert', ['link', 'picture', 'hr']],
+		['view', ['fullscreen', 'codeview']],
+		['help', ['help']]
+        ],
+
+        callbacks: {
+            onImageUpload: function (files) {
+                sendFile(files[0]);
+                $summernote.summernote('insertNode', imgNode);
+            }
+        }
+
+});
+
+function showContent() {
+	$('.output').html($('#summernote').summernote('code'));
+}
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+

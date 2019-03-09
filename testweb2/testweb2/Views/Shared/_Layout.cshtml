@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link href="/Content/site.css" rel="stylesheet" />
+    <script src="/Scripts/modernizr-2.8.3.js"></script>
+    @{
+
+    }
+    <style>
+        .imgcell {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">INCAL</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/home/index">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            과제
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="/homework">과제 보기</a>
+                        </div>
+
+                    </li>
+                    @try
+                    {
+                        if (Session["UserName"] != null && (Session["UserClass"].ToString() == "Teacher" || Session["UserClass"].ToString() == "Admin"))
+                        {
+                            <li class=" nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    선생님 페이지
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/homework/create">과제추가</a>
+                                </div>
+                            </li>
+                        }
+                        if (Session["UserName"] != null && Session["UserClass"].ToString() == "Admin")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin">관리자 페이지</a>
+                            </li>
+                        }
+                    }
+                    catch (Exception E)
+                    {
+
+                    }
+                </ul>
+                @if (Session["UserName"] != null)
+                {
+                    <span class="text-secondary mr-sm-4">@Session["UserName"].ToString() 님 안녕하세요!  </span>
+                    <form method="post" action="/Users/Login">
+                        @Html.AntiForgeryToken()
+                        <input name="btnSubmit" class="btn btn-outline-primary my-2 my-sm-2" type="submit" value="로그아웃" />
+                    </form>
+                }
+                else
+                {
+                    <div class="btn-group my-2 my-lg-0">
+                        <a class="btn btn-outline-primary my-2 my-sm-0" href="/users/login">Login</a>
+                        <a class="btn btn-outline-primary my-2 my-sm-0" href="/users/create">register</a>
+                    </div>
+                }
+            </div>
+        </nav>
+    </header>
+    <div class="container body-content">
+        <br />
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; Copyright @DateTime.Now.Year by INCAL. All right reserved.</p>
+        </footer>
+    </div>
+    <script src="~/Scripts/Site.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

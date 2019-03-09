@@ -1,0 +1,27 @@
+﻿@model testweb2.Models.User
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<form class="form-signin text-center" role="form" method="post" action="Create">
+    @Html.AntiForgeryToken()
+    <h2 class="form-text">회원가입</h2>
+
+    <div class="input-group mb-3" id="divId">
+        <input type="text" class="form-control onlyAlphabetAndNumber" id="UserId" name="UserId" data-rule-required="true" placeholder="아이디" maxlength="30">
+    </div>
+
+    <div class="input-group mb-3" id="divPassword">
+        <input type="password" class="form-control" id="UserPassword" name="UserPassword" data-rule-required="true" placeholder="패스워드" maxlength="30">
+    </div>
+
+    <div class="input-group mb-3" id="divName">
+        <input type="text" class="form-control onlyHangul" id="UserName" name="UserName" data-rule-required="true" placeholder="닉네임" maxlength="15">
+    </div>
+
+    <div class="form-group text-center" id="divSubmit">
+        <input type="submit" value="회원가입" class="btn btn-primary">
+    </div>
+</form>
+
