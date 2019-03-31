@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using testweb2;
 using testweb2.Models;
 
 namespace testweb2.Controllers
@@ -36,7 +30,7 @@ namespace testweb2.Controllers
                 user.UserPassword = Encryption.Encode(user.UserPassword);
                 db.Users.Add(user);
                 db.SaveChanges();
-                return RedirectToAction("index", "home");
+                return Redirect(Request.Url.ToString());
             }
 
             return View();

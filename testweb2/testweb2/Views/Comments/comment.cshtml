@@ -27,7 +27,10 @@
                 @foreach (var item in Model)
                 {
                     <div style="width:100%">
-                        <p class="text-sm-right">@item.UserName 님</p>
+                        <p class="text-sm-right">
+                            @item.UserName 님
+                            <button onclick="deletecomments(@item.CommentNo)">제거</button>
+                        </p>
                         <p class="text-left"><h5>@item.CommentContents</h5></p>
                         <br />
                     </div>
@@ -37,4 +40,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    function deletecomments(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "Post");
+        form.setAttribute("action", "/Comments/Delete");//form 생성 및 형식 설정
+
+        var hiddenField = document.createElement("input");
+        hiddenField.setAttribute("name", "CommentNo")
+        hiddenField.setAttribute("value", id);//form 내용 삽입
+
+        form.appendChild(hiddenField);
+        document.body.appendChild(form);
+        form.submit();//form 전송
+    }
+</script>
 <hr />

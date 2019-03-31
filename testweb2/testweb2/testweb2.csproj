@@ -162,12 +162,23 @@
     <Compile Include="Controllers\HomeworkController.cs" />
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="encryption.cs" />
+    <Compile Include="Func\encryption.cs" />
     <Compile Include="Func\authen.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201812311117455_InitialCreate.cs" />
+    <Compile Include="Migrations\201812311117455_InitialCreate.Designer.cs">
+      <DependentUpon>201812311117455_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903311342425_NoteCat.cs" />
+    <Compile Include="Migrations\201903311342425_NoteCat.Designer.cs">
+      <DependentUpon>201903311342425_NoteCat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Category.cs" />
     <Compile Include="Models\comment.cs" />
     <Compile Include="Models\homework.cs" />
     <Compile Include="Models\image.cs" />
@@ -321,6 +332,7 @@
     <Content Include="Views\Comments\comment.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\upgrade.cshtml" />
+    <Content Include="Views\Teacher\AddCat.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -337,6 +349,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812311117455_InitialCreate.resx">
+      <DependentUpon>201812311117455_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903311342425_NoteCat.resx">
+      <DependentUpon>201903311342425_NoteCat.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
