@@ -9,12 +9,17 @@ using System.Net.Sockets;
 using System.Web;
 using System.Web.Mvc;
 using MvcMovie.Models;
+using testweb2.Models;
+using testweb2.Func;
+using testweb2.Classes;
 
 namespace testweb2.Controllers
 {
     public class HomeworkController : Controller
     {
         private HomeworkDBContext db = new HomeworkDBContext();
+        private CategoryDBcontext db2 = new CategoryDBcontext();
+        private NoteCatDBContext db3 = new NoteCatDBContext();
 
         // GET: Homework
         public ActionResult Index()
@@ -37,25 +42,49 @@ namespace testweb2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(homework);
+            var a = from b in db3.NoteCat.ToList()
+                    where b.NoteNo == id
+                    select b;
+            var c = new HomeworkDetail(homework, a);
+            return View(c);
         }
 
         // GET: Homework/Create
         public ActionResult Create()
         {
-            return View();
+            try
+            {
+                if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
+                {
+                    return View("ClassError");
+                }
+                
+                return View(db2.Category.ToList());
+            }
+            catch
+            {
+                return View("ClassError");
+            }
         }
 
         // POST: Homework/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Create([Bind(Include = "NoteNo,Subject,T_Name,Contents,Title,Date")] Homework homework)
+        public ActionResult Create([Bind(Include = "NoteNo,Subject,T_Name,Contents,Title,Date")] Homework homework,string[] checkbox)
         {
             if (ModelState.IsValid)
             {
+                homework.T_Name = Session["UserName"].ToString();
                 db.Homework.Add(homework);
                 db.SaveChanges();
+
+                for (int i = 0; i < checkbox.Length; i++)
+                {
+                    db3.NoteCat.Add(new NoteCat() {NoteCatId = 1, NoteNo = homework.NoteNo, CatAttribute = checkbox[i] });
+                }
+
+                db3.SaveChanges();
 
                 Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse("110.10.38.94"), 1503);
@@ -138,7 +167,7 @@ namespace testweb2.Controllers
             var comments = from a in cdb.Comment.ToList()
                            where a.ParentNo == id
                            select a;
-            foreach(var item in comments)
+            foreach (var item in comments)
             {
                 cdb.Comment.Remove(item);
             }

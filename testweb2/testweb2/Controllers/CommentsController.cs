@@ -24,6 +24,17 @@ namespace testweb2.Controllers
             ViewBag.CommentsCount = item.Count();
             return View(item);
         }
+        [HttpPost]
+        public ActionResult Delete(int CommentNo)
+        {
+            var comment = from a in db.Comment.ToList()
+                          where a.CommentNo == CommentNo
+                          select a;
+            int No = comment.First().ParentNo;
+            db.Comment.Remove(comment.First());
+            db.SaveChanges();
+            return Redirect("~/Homework/details/" + No);
+        }
 
         [HttpPost]
         public ActionResult Create(string contents, int NoteNo)

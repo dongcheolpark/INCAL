@@ -19,7 +19,7 @@ namespace testweb2.Func
                 }
                 else throw (new Exception());
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }

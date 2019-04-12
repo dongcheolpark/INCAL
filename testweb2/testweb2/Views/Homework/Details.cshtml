@@ -1,4 +1,4 @@
-﻿@model MvcMovie.Models.Homework
+﻿@model testweb2.Classes.HomeworkDetail
 
 @{
     ViewBag.Title = "Details";
@@ -6,19 +6,29 @@
 
 <div>
     <p>
-        <h2>@Model.Title</h2>
+        <h2>@Model.Homework.Title</h2>
     </p>
-    <span>@Model.T_Name | </span><span>@Model.Subject | </span><span>@Model.Date | </span>
+    <span>@Model.Homework.T_Name | </span><span>@Model.Homework.Subject | </span><span>@Model.Homework.Date | </span>
 </div>
 <hr />
 <div class="div-contents">
-    @Html.Raw(Model.Contents)
+    @Html.Raw(Model.Homework.Contents)
 </div>
 <p>
-    <a class="btn btn-primary" href="@Model.NoteNo">제거</a>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.NoteNo }) |
+    <a class="btn btn-primary" href="@Model.Homework.NoteNo">제거</a>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Homework.NoteNo }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+<hr />
+<p class="text-left">
+    @foreach (var item in Model.Category)
+    {
+        <span class="badge badge-primary">
+            @item.CatAttribute
+        </span>
 
-@Html.Action("comment","Comments",new { NoteNo = Model.NoteNo })
+    }
+</p>
+
+@Html.Action("comment","Comments",new { NoteNo = Model.Homework.NoteNo })
 
