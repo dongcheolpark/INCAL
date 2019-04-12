@@ -28,8 +28,8 @@
                 {
                     <div style="width:100%">
                         <p class="text-sm-right">
-                            @item.UserName 님
-                            <button onclick="deletecomments(@item.CommentNo)">제거</button>
+                            @item.UserName 님  
+                            <button style="margin-left:10px" class="btn btn-outline-danger" onclick="deletecomments(@item.CommentNo)">제거</button>
                         </p>
                         <p class="text-left"><h5>@item.CommentContents</h5></p>
                         <br />

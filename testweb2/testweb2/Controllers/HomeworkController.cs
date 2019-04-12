@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using MvcMovie.Models;
 using testweb2.Models;
 using testweb2.Func;
+using testweb2.Classes;
 
 namespace testweb2.Controllers
 {
@@ -41,7 +42,11 @@ namespace testweb2.Controllers
             {
                 return HttpNotFound();
             }
-            return View(homework);
+            var a = from b in db3.NoteCat.ToList()
+                    where b.NoteNo == id
+                    select b;
+            var c = new HomeworkDetail(homework, a);
+            return View(c);
         }
 
         // GET: Homework/Create
