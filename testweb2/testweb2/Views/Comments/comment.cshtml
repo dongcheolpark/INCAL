@@ -1,0 +1,40 @@
+﻿@model IEnumerable<MvcMovie.Models.Comment>
+
+@{
+    Layout = "";
+}
+
+<hr />
+<form method="post" action="~/comments/create">
+    <h3>댓글달기</h3>
+    <input type="hidden" name="NoteNo" value="@ViewBag.NoteNo" />
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="contents" placeholder="댓글" aria-label="댓글" aria-describedby="button-addon1">
+        <div class="input-group-append">
+            <input class="btn btn-outline-secondary" type="submit" id="button-addon2" />
+        </div>
+    </div>
+</form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1>
+                    <small class="pull-right">@ViewBag.CommentsCount Comments </small>
+                </h1>
+            </div>
+            <div class="comments-list">
+                @foreach (var item in Model)
+                {
+                    <div style="width:100%">
+                        <p class="text-sm-right">@item.UserName 님</p>
+                        <p class="text-left"><h5>@item.CommentContents</h5></p>
+                        <br />
+                    </div>
+                    <hr />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
