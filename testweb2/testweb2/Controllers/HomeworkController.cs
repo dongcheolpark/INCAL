@@ -20,14 +20,27 @@ namespace testweb2.Controllers
         private HomeworkDBContext db = new HomeworkDBContext();
         private CategoryDBcontext db2 = new CategoryDBcontext();
         private NoteCatDBContext db3 = new NoteCatDBContext();
+        private UserCategoryDBcontext db4 = new UserCategoryDBcontext();
 
         // GET: Homework
         public ActionResult Index()
         {
+            var userlist = from a in db4.UserCategory.ToList()
+                           where a.CatUSelect == Session["UserId"].ToString()
+                           select a;
             var list = from a in db.Homework.ToList()
                        orderby a.Date descending
                        select a;
+            foreach(var item in list)
+            {
+                bool check = false;
+                foreach(var item2 in userlist)
+                {
+                    var catlist = from a in db3.NoteCat.ToList()
+                }
+            }
             return View(list);
+            //return View(db.Homework.ToList());
         }
 
         // GET: Homework/Details/5
@@ -81,7 +94,7 @@ namespace testweb2.Controllers
 
                 for (int i = 0; i < checkbox.Length; i++)
                 {
-                    db3.NoteCat.Add(new NoteCat() {NoteCatId = 1, NoteNo = homework.NoteNo, CatAttribute = checkbox[i] });
+                    db3.NoteCat.Add(new NoteCat() {NoteNo = homework.NoteNo, CatAttribute = checkbox[i] });
                 }
 
                 db3.SaveChanges();

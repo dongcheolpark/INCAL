@@ -1,4 +1,4 @@
-﻿@model testweb2.Models.User
+﻿@model IEnumerable<testweb2.Models.Category>
 
 @{
     ViewBag.Title = "Create";
@@ -19,6 +19,75 @@
     <div class="input-group mb-3" id="divName">
         <input type="text" class="form-control onlyHangul" id="UserName" name="UserName" data-rule-required="true" placeholder="닉네임" maxlength="15">
     </div>
+
+
+    <div class="input-group mb-3 div-border">
+        <div class="mb-3" style="width:100%;">
+            학년 반
+            <div class="mb-2">
+                <hr />
+                @foreach (var item in Model)
+                {
+                    if (string.Compare(item.CatAttribute, "학년 반") == 0)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="mb-3" style="width:100%;">
+            과목
+            <div class="mb-2">
+                <hr />
+                @foreach (var item in Model)
+                {
+                    if (string.Compare(item.CatAttribute, "과목") == 0)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="mb-3" style="width:100%;">
+            동아리
+            <div class="mb-2">
+                <hr />
+                @foreach (var item in Model)
+                {
+                    if (string.Compare(item.CatAttribute, "동아리") == 0)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+        <div class="mb-3" style="width:100%;">
+            기타
+            <div class="mb-2">
+                <hr />
+                @foreach (var item in Model)
+                {
+                    if (string.Compare(item.CatAttribute, "기타") == 0)
+                    {
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
 
     <div class="form-group text-center" id="divSubmit">
         <input type="submit" value="회원가입" class="btn btn-primary">

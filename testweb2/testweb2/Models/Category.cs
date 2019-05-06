@@ -12,7 +12,6 @@ namespace testweb2.Models
         public string CatName { get; set; }
         public string CatAttribute { get; set; }
     }
-    [Table("UserCategory")]
     public class UserCategory
     {
         [Key]
@@ -25,7 +24,7 @@ namespace testweb2.Models
     {
         public DbSet<Category> Category { get; set; }
     }
-    public class UserCatogryDBcontext : DbContext
+    public class UserCategoryDBcontext : DbContext
     { 
         public DbSet<UserCategory> UserCategory { get; set; }
     }

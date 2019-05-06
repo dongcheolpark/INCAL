@@ -164,6 +164,7 @@
     <Compile Include="Controllers\ImagesController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Controllers\UserPageController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Func\encryption.cs" />
     <Compile Include="Func\authen.cs" />
@@ -334,6 +335,11 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\upgrade.cshtml" />
     <Content Include="Views\Teacher\AddCat.cshtml" />
+    <Content Include="Views\UserPage\Create.cshtml" />
+    <Content Include="Views\UserPage\Delete.cshtml" />
+    <Content Include="Views\UserPage\Details.cshtml" />
+    <Content Include="Views\UserPage\Edit.cshtml" />
+    <Content Include="Views\UserPage\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

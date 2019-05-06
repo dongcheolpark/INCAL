@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using MvcMovie.Models;
+using System.Data;
 using System.Linq;
 using System.Web.Mvc;
 using testweb2.Models;
@@ -8,17 +9,19 @@ namespace testweb2.Controllers
     public class UsersController : Controller
     {
         private UserDBContext db = new UserDBContext();
+        private UserCategoryDBcontext db2 = new UserCategoryDBcontext();
+        private CategoryDBcontext db3 = new CategoryDBcontext();
 
         // GET: Users/Create
         public ActionResult Create()
         {
-            return View();
+            return View(db3.Category.ToList());
         }
 
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "UserNo,UserId,UserPassword,UserName")] User user)
+        public ActionResult Create([Bind(Include = "UserNo,UserId,UserPassword,UserName")] User user,string[] checkbox)
         {
             if (ModelState.IsValid)
             {
@@ -28,12 +31,20 @@ namespace testweb2.Controllers
                 user.UserNo = id.Last().UserNo+2;
                 user.UserClass = "students";
                 user.UserPassword = Encryption.Encode(user.UserPassword);
+
+
+                for (int i = 0; i < checkbox.Length; i++)
+                {
+                    db2.UserCategory.Add(new UserCategory() { CatUName = checkbox[i], CatUId = user.UserNo });
+                }
+
                 db.Users.Add(user);
                 db.SaveChanges();
+                db2.SaveChanges();
                 return Redirect(Request.Url.ToString());
             }
 
-            return View();
+            return View("home");
         }
 
         public ActionResult Login()
