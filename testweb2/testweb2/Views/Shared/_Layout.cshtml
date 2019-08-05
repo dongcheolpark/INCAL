@@ -65,6 +65,17 @@
                                 </div>
                             </li>
                         }
+                        if (Session["UserName"] != null && (Session["UserClass"].ToString() == "Student" || Session["UserClass"].ToString() == "Admin"))
+                        {
+                            <li class=" nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    학생 메뉴
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="/Student/Settings">학생 페이지</a>
+                                </div>
+                            </li>
+                        }
                         if (Session["UserName"] != null && Session["UserClass"].ToString() == "Admin")
                         {
                             <li class="nav-item">

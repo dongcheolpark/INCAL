@@ -5,7 +5,6 @@
 }
 
 <form class="form-signin text-center" role="form" method="post" action="Create">
-    @Html.AntiForgeryToken()
     <h2 class="form-text">회원가입</h2>
 
     <div class="input-group mb-3" id="divId">
@@ -31,7 +30,7 @@
                     if (string.Compare(item.CatAttribute, "학년 반") == 0)
                     {
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatId">
                             <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
                         </div>
                     }
@@ -47,7 +46,7 @@
                     if (string.Compare(item.CatAttribute, "과목") == 0)
                     {
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatId">
                             <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
                         </div>
                     }
@@ -63,7 +62,7 @@
                     if (string.Compare(item.CatAttribute, "동아리") == 0)
                     {
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatId">
                             <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
                         </div>
                     }
@@ -79,7 +78,7 @@
                     if (string.Compare(item.CatAttribute, "기타") == 0)
                     {
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatName">
+                            <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatId">
                             <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
                         </div>
                     }

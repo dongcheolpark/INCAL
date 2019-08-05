@@ -27,7 +27,7 @@ namespace testweb2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserCategory userCategory = db.UserCategory.Find(id);
+            UserCategories userCategory = db.UserCategory.Find(id);
             if (userCategory == null)
             {
                 return HttpNotFound();
@@ -46,7 +46,7 @@ namespace testweb2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatUId,CatUName,CatUSelect")] UserCategory userCategory, string[] checkbox)
+        public ActionResult Create([Bind(Include = "CatUId,CatUName,CatUSelect")] UserCategories userCategory, string[] checkbox)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +65,7 @@ namespace testweb2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserCategory userCategory = db.UserCategory.Find(id);
+            UserCategories userCategory = db.UserCategory.Find(id);
             if (userCategory == null)
             {
                 return HttpNotFound();
@@ -78,7 +78,7 @@ namespace testweb2.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CatUId,CatUName,CatUSelect")] UserCategory userCategory)
+        public ActionResult Edit([Bind(Include = "CatUId,CatUName,CatUSelect")] UserCategories userCategory)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@ namespace testweb2.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserCategory userCategory = db.UserCategory.Find(id);
+            UserCategories userCategory = db.UserCategory.Find(id);
             if (userCategory == null)
             {
                 return HttpNotFound();
@@ -109,7 +109,7 @@ namespace testweb2.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            UserCategory userCategory = db.UserCategory.Find(id);
+            UserCategories userCategory = db.UserCategory.Find(id);
             db.UserCategory.Remove(userCategory);
             db.SaveChanges();
             return RedirectToAction("Index");

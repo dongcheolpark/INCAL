@@ -12,12 +12,13 @@ namespace testweb2.Models
         public string CatName { get; set; }
         public string CatAttribute { get; set; }
     }
-    public class UserCategory
+    [Table("UserCategories")]
+    public class UserCategories
     {
         [Key]
         public int CatUId { get; set; }
-        public string CatUName { get; set; }
-        public string CatUSelect { get; set; }
+        public int CatUName { get; set; }
+        public int CatUSelect { get; set; }
     }
 
     public class CategoryDBcontext : DbContext
@@ -26,6 +27,14 @@ namespace testweb2.Models
     }
     public class UserCategoryDBcontext : DbContext
     { 
-        public DbSet<UserCategory> UserCategory { get; set; }
+        public DbSet<UserCategories> UserCategory { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // other code 
+            Database.SetInitializer<UserCategoryDBcontext>(null);
+            // more code
+        }
     }
+
 }
