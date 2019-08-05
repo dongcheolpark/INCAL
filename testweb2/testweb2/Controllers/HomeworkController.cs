@@ -36,7 +36,7 @@ namespace testweb2.Controllers
                 bool check = false;
                 foreach(var item2 in userlist)
                 {
-                    var catlist = from a in db3.NoteCat.ToList()
+                    //var catlist = from a in db3.NoteCat.ToList()
                 }
             }
             return View(list);
