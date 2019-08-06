@@ -25,8 +25,9 @@ namespace testweb2.Controllers
         // GET: Homework
         public ActionResult Index()
         {
+            DelHomeworks();
             var userlist = from a in db4.UserCategory.ToList()
-                           where a.CatUSelect == Session["UserId"].ToString()
+                           where a.CatUId == int.Parse(Session["UserId"].ToString())
                            select a;
             var list = from a in db.Homework.ToList()
                        orderby a.Date descending
@@ -36,7 +37,8 @@ namespace testweb2.Controllers
                 bool check = false;
                 foreach(var item2 in userlist)
                 {
-                    //var catlist = from a in db3.NoteCat.ToList()
+                    var catlist = from a in db3.NoteCat.ToList()
+                                  select a;
                 }
             }
             return View(list);
@@ -196,6 +198,19 @@ namespace testweb2.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        void DelHomeworks()
+        {
+            var data = from a in db.Homework.ToList()
+                            where a.Date < DateTime.Today
+                            select a;
+            foreach(var item in data)
+            {
+                db.Homework.Remove(item);
+            }
+            db.SaveChanges();
+            return;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace testweb2.Controllers
 
                 for (int i = 0; i < checkbox.Length; i++)
                 {
-                    db2.UserCategory.Add(new UserCategory() { CatUName = checkbox[i], CatUId = user.UserNo });
+                    db2.UserCategory.Add(new UserCategories() { CatUSelect = int.Parse(checkbox[i]), CatUId = user.UserNo });
                 }
 
                 db.Users.Add(user);
@@ -57,7 +57,6 @@ namespace testweb2.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Login([Bind(Include = "UserId,UserPassword")]User user, string btnSubmit)
         {
             switch (btnSubmit)
@@ -86,7 +85,7 @@ namespace testweb2.Controllers
                     }
                     Session["UserClass"] = result.UserClass;
                     Session["UserName"] = result.UserName;
-                    Session["UserId"] = result.UserId;
+                    Session["UserId"] = result.UserNo;
                     Session["UserPw"] = result.UserPassword;
                     return Redirect("~/home");
 
