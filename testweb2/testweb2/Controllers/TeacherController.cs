@@ -14,6 +14,7 @@ namespace testweb2.Controllers
     public class TeacherController : Controller
     {
         private CategoryDBcontext db = new CategoryDBcontext();
+        private UserCategoriesDBcontext db2 = new UserCategoriesDBcontext();
 
         // GET: Teacher
         public ActionResult AddCat()
@@ -40,9 +41,9 @@ namespace testweb2.Controllers
             {
                 db.Category.Add(category);
                 db.SaveChanges();
-                return View();
+                return View(db.Category.ToList());
             }
-            return View();
+            return View(db.Category.ToList());
         }
 
         public ActionResult DeleteCat(int id)
@@ -50,6 +51,14 @@ namespace testweb2.Controllers
             var item = from a in db.Category.ToList()
                        where a.CatId == id
                        select a;
+            var item2 = from a in db2.Categories.ToList()
+                        where a.CatUSelect == id
+                        select a;
+            foreach(var a in item2)
+            {
+                db2.Categories.Remove(a);
+                db2.SaveChanges();
+            }
             db.Category.Remove(item.First());
             db.SaveChanges();
             return Redirect("~/Teacher/AddCat");

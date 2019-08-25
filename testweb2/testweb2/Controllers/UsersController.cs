@@ -40,10 +40,13 @@ namespace testweb2.Controllers
                 db.Users.Add(user);
                 db2.SaveChanges();
                 db.SaveChanges();
-                return Redirect(Request.Url.ToString());
             }
 
-            return View("home");
+            Session["UserClass"] = user.UserClass;
+            Session["UserName"] = user.UserName;
+            Session["UserNo"] = user.UserNo;
+            Session["UserPw"] = user.UserPassword;
+            return Redirect("~/home");
         }
 
         public ActionResult Login()

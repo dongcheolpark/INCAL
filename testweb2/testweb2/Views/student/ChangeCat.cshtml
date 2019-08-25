@@ -13,19 +13,21 @@
                     <hr />
                     @foreach (var item in Model.category)
                     {
-                        bool check = false;
-                        foreach (var item2 in Model.userCategory)
+                        if (string.Compare(item.CatAttribute, "학년 반") == 0)
                         {
-                            if (item2.CatUSelect == item.CatId) { check = true; }
+                            bool check = false;
+                            foreach (var item2 in Model.userCategory)
+                            {
+                                if (item2.CatUSelect == item.CatId) { check = true; }
+                            }
+                            <div class="form-check form-check-inline">
+                                @if (check)
+                                {<input class="form-check-input" type="checkbox" name="Checkbox[]" checked="checked" value="@item.CatId"> }
+                                else
+                                { <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatId">}
+                                <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
+                            </div>
                         }
-                        <div class="form-check form-check-inline">
-                            @if (check)
-                            {<input class="form-check-input" type="checkbox" name="Checkbox[]" checked="checked" value="@item.CatId"> }
-                            else
-                            { <input class="form-check-input" type="checkbox" name="Checkbox[]" value="@item.CatId">}
-                            <label class="form-check-label" for="inlineCheckbox1">@item.CatName</label>
-                        </div>
-                    }
                     }
                 </div>
             </div>

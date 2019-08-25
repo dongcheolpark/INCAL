@@ -27,21 +27,35 @@ namespace testweb2.Controllers
         {
             DelHomeworks();
             var userlist = from a in db4.Categories.ToList()
-                           where a.CatUId == int.Parse(Session["UserId"].ToString())
+                           where a.CatUName == int.Parse(Session["UserNo"].ToString())
                            select a;
             var list = from a in db.Homework.ToList()
                        orderby a.Date descending
                        select a;
+            List<Homework> result = new List<Homework>();
             foreach(var item in list)
             {
                 bool check = false;
-                foreach(var item2 in userlist)
+                var catlist = from a in db3.NoteCat.ToList()
+                              where a.NoteNo == item.NoteNo
+                              select a;
+                foreach (var item2 in userlist)
                 {
-                    var catlist = from a in db3.NoteCat.ToList()
-                                  select a;
+                    foreach(var item3 in catlist)
+                    {
+                        if (int.Parse(item3.CatAttribute) == item2.CatUSelect) {
+                            check = true;
+                            break;
+                        }
+                    }
+                    if (check) break;
+                }
+                if(check)
+                {
+                    result.Add(item);
                 }
             }
-            return View(list);
+            return View(result);
             //return View(db.Homework.ToList());
         }
 
@@ -149,6 +163,7 @@ namespace testweb2.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Homework homework = db.Homework.Find(id);
+
             if (homework == null)
             {
                 return HttpNotFound();
