@@ -20,13 +20,13 @@ namespace testweb2.Controllers
         private HomeworkDBContext db = new HomeworkDBContext();
         private CategoryDBcontext db2 = new CategoryDBcontext();
         private NoteCatDBContext db3 = new NoteCatDBContext();
-        private UserCategoryDBcontext db4 = new UserCategoryDBcontext();
+        private UserCategoriesDBcontext db4 = new UserCategoriesDBcontext();
 
         // GET: Homework
         public ActionResult Index()
         {
             DelHomeworks();
-            var userlist = from a in db4.UserCategory.ToList()
+            var userlist = from a in db4.Categories.ToList()
                            where a.CatUId == int.Parse(Session["UserId"].ToString())
                            select a;
             var list = from a in db.Homework.ToList()

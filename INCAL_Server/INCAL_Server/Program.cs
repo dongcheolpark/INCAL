@@ -58,61 +58,6 @@ namespace INCAL_Server
             }
         }
 
-        public static void Server_teacher()
-        {
-
-            while (true)
-            {
-                try
-                {
-                    using (conn = new SQLiteConnection(strConn))
-                    {
-                        conn.Open();
-                        Server.Listen(10);
-
-                        Client = Server.Accept();
-                        console_command.Showip(Client);
-                        if (Client.Connected)
-                        {
-                            Data data = new Data();
-                            String _data = "";
-                            Recieve(Client, ref _data);
-                            data.Subject = _data;
-                            Console.WriteLine("Client Message : {0}", _data);
-
-                            Recieve(Client, ref _data);
-                            data.T_Name = _data;
-                            Console.WriteLine("Client Message : {0}", _data);
-
-                            Recieve(Client, ref _data);
-                            data.Contents = _data.Replace("\n", "<br>");
-                            Console.WriteLine("Client Message : {0}", data.Contents);
-
-                            Recieve(Client, ref _data);
-                            data.Title = _data;
-                            Console.WriteLine("Client Message : {0}", _data);
-
-                            Recieve(Client, ref _data);
-                            CultureInfo originalCulture = Thread.CurrentThread.CurrentCulture;
-                            data.Date = DateTime.Parse(_data, originalCulture,
-                                     DateTimeStyles.NoCurrentDateDefault); ;
-                            Console.WriteLine("Client Message : {0}", _data);
-
-                            sendnoti();
-                        }
-                    }
-                }
-                catch (System.Net.Sockets.SocketException socketEx)
-                {
-                    Console.WriteLine("[Error]:{0}", socketEx.Message);
-                }
-                catch (System.Exception commonEx)
-                {
-                    Console.WriteLine("[Error]:{0}", commonEx.Message);
-                }
-            }
-
-        }
         public static void Server_app()
         {
             while (true)

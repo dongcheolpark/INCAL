@@ -12,7 +12,7 @@ namespace testweb2.Controllers
 {
     public class studentController : Controller
     {
-        private UserCategoryDBcontext db = new UserCategoryDBcontext();
+        private UserCategoriesDBcontext db = new UserCategoriesDBcontext();
         private CategoryDBcontext db2 = new CategoryDBcontext();
 
         // GET: student
@@ -25,8 +25,8 @@ namespace testweb2.Controllers
             StudentsModel model = new StudentsModel()
             {
                 category = db2.Category.ToList(),
-                userCategory = from a in db.UserCategory.ToList()
-                               where a.CatUId == int.Parse(Session["UserId"].ToString())
+                userCategory = from a in db.Categories.ToList()
+                               where a.CatUName == int.Parse(Session["UserNo"].ToString())
                                select a
             };
             return View(model);
@@ -35,16 +35,26 @@ namespace testweb2.Controllers
         [HttpPost]
         public ActionResult ChangeCat(string[] checkbox)
         {
-            UserCategories abc = new UserCategories()
+            var ab = from a in db.Categories.ToList()
+                     where a.CatUName == int.Parse(Session["UserNo"].ToString())
+                     select a;
+            foreach(var item in ab)
             {
-                CatUName = int.Parse(Session["UserId"].ToString()),
+                db.Categories.Remove(item);
+            }
+            db.SaveChanges();
+            SelectedCategory abc = new SelectedCategory()
+            {
+                CatUName = int.Parse(Session["UserNo"].ToString()),
                 
             };
             for(int i = 0; i<checkbox.Length;i++)
             {
                 abc.CatUSelect = int.Parse(checkbox[i]);
-                db.UserCategory.Add(abc);
+                db.Categories.Add(abc);
+                db.SaveChanges();
             }
+            db.SaveChanges();
             return RedirectToAction("Settings");
         }
         

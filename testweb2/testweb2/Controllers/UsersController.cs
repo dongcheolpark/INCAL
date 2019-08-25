@@ -9,7 +9,7 @@ namespace testweb2.Controllers
     public class UsersController : Controller
     {
         private UserDBContext db = new UserDBContext();
-        private UserCategoryDBcontext db2 = new UserCategoryDBcontext();
+        private UserCategoriesDBcontext db2 = new UserCategoriesDBcontext();
         private CategoryDBcontext db3 = new CategoryDBcontext();
 
         // GET: Users/Create
@@ -20,7 +20,6 @@ namespace testweb2.Controllers
 
         // POST: Users/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "UserNo,UserId,UserPassword,UserName")] User user,string[] checkbox)
         {
             if (ModelState.IsValid)
@@ -29,18 +28,18 @@ namespace testweb2.Controllers
                          orderby a.UserNo
                          select a;
                 user.UserNo = id.Last().UserNo+2;
-                user.UserClass = "students";
+                user.UserClass = "Student";
                 user.UserPassword = Encryption.Encode(user.UserPassword);
-
 
                 for (int i = 0; i < checkbox.Length; i++)
                 {
-                    db2.UserCategory.Add(new UserCategories() { CatUSelect = int.Parse(checkbox[i]), CatUId = user.UserNo });
+                    var cuser = new SelectedCategory() { CatUSelect = int.Parse(checkbox[i]), CatUName = user.UserNo };
+                    db2.Categories.Add(cuser);
                 }
-
+                
                 db.Users.Add(user);
-                db.SaveChanges();
                 db2.SaveChanges();
+                db.SaveChanges();
                 return Redirect(Request.Url.ToString());
             }
 
@@ -85,7 +84,7 @@ namespace testweb2.Controllers
                     }
                     Session["UserClass"] = result.UserClass;
                     Session["UserName"] = result.UserName;
-                    Session["UserId"] = result.UserNo;
+                    Session["UserNo"] = result.UserNo;
                     Session["UserPw"] = result.UserPassword;
                     return Redirect("~/home");
 

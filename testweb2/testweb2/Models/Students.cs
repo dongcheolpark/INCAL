@@ -8,6 +8,6 @@ namespace testweb2.Models
     public class StudentsModel
     {
         public IEnumerable<Category> category { set; get; }
-        public IEnumerable<UserCategories> userCategory { set; get; }
+        public IEnumerable<SelectedCategory> userCategory { set; get; }
     }
 }

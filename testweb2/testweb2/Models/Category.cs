@@ -12,8 +12,8 @@ namespace testweb2.Models
         public string CatName { get; set; }
         public string CatAttribute { get; set; }
     }
-    [Table("UserCategories")]
-    public class UserCategories
+
+    public class SelectedCategory
     {
         [Key]
         public int CatUId { get; set; }
@@ -25,16 +25,10 @@ namespace testweb2.Models
     {
         public DbSet<Category> Category { get; set; }
     }
-    public class UserCategoryDBcontext : DbContext
-    { 
-        public DbSet<UserCategories> UserCategory { get; set; }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            // other code 
-            Database.SetInitializer<UserCategoryDBcontext>(null);
-            // more code
-        }
+    public class UserCategoriesDBcontext : DbContext
+    {
+        public DbSet<SelectedCategory> Categories { get; set; }
     }
 
 }

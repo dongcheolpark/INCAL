@@ -10,24 +10,24 @@ using testweb2.Models;
 
 namespace testweb2.Controllers
 {
-    public class UserPageController : Controller
+    public class UserCategoriesController : Controller
     {
         private UserCategoriesDBcontext db = new UserCategoriesDBcontext();
 
-        // GET: UserPage
+        // GET: UserCategories
         public ActionResult Index()
         {
             return View(db.Categories.ToList());
         }
 
-        // GET: UserPage/Details/5
+        // GET: UserCategories/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SelectedCategory userCategory = db.Categories.Find(id);
+            UserCategory userCategory = db.Categories.Find(id);
             if (userCategory == null)
             {
                 return HttpNotFound();
@@ -35,18 +35,18 @@ namespace testweb2.Controllers
             return View(userCategory);
         }
 
-        // GET: UserPage/Create
+        // GET: UserCategories/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UserPage/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: UserCategories/Create
+        // 초과 게시 공격으로부터 보호하려면 바인딩하려는 특정 속성을 사용하도록 설정하십시오. 
+        // 자세한 내용은 https://go.microsoft.com/fwlink/?LinkId=317598을(를) 참조하십시오.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CatUId,CatUName,CatUSelect")] SelectedCategory userCategory, string[] checkbox)
+        public ActionResult Create([Bind(Include = "CatUId,CatUName,CatUSelect")] UserCategory userCategory)
         {
             if (ModelState.IsValid)
             {
@@ -58,14 +58,14 @@ namespace testweb2.Controllers
             return View(userCategory);
         }
 
-        // GET: UserPage/Edit/5
+        // GET: UserCategories/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SelectedCategory userCategory = db.Categories.Find(id);
+            UserCategory userCategory = db.Categories.Find(id);
             if (userCategory == null)
             {
                 return HttpNotFound();
@@ -73,12 +73,12 @@ namespace testweb2.Controllers
             return View(userCategory);
         }
 
-        // POST: UserPage/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: UserCategories/Edit/5
+        // 초과 게시 공격으로부터 보호하려면 바인딩하려는 특정 속성을 사용하도록 설정하십시오. 
+        // 자세한 내용은 https://go.microsoft.com/fwlink/?LinkId=317598을(를) 참조하십시오.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CatUId,CatUName,CatUSelect")] SelectedCategory userCategory)
+        public ActionResult Edit([Bind(Include = "CatUId,CatUName,CatUSelect")] UserCategory userCategory)
         {
             if (ModelState.IsValid)
             {
@@ -89,14 +89,14 @@ namespace testweb2.Controllers
             return View(userCategory);
         }
 
-        // GET: UserPage/Delete/5
+        // GET: UserCategories/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            SelectedCategory userCategory = db.Categories.Find(id);
+            UserCategory userCategory = db.Categories.Find(id);
             if (userCategory == null)
             {
                 return HttpNotFound();
@@ -104,12 +104,12 @@ namespace testweb2.Controllers
             return View(userCategory);
         }
 
-        // POST: UserPage/Delete/5
+        // POST: UserCategories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            SelectedCategory userCategory = db.Categories.Find(id);
+            UserCategory userCategory = db.Categories.Find(id);
             db.Categories.Remove(userCategory);
             db.SaveChanges();
             return RedirectToAction("Index");
