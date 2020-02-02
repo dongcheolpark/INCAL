@@ -15,16 +15,18 @@
     @Html.Raw(Model.Homework.Contents)
 </div>
 <p>
-    <a class="btn btn-primary" href="@Model.Homework.NoteNo">제거</a>
+    @if(Model.Homework.T_Name == Session["UserName"].ToString()) { 
+    <a class="btn btn-primary" href="../Delete/@Model.Homework.NoteNo">제거</a>
+    }
     @Html.ActionLink("Edit", "Edit", new { id = Model.Homework.NoteNo }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
 <hr />
 <p class="text-left">
-    @foreach (var item in Model.Category)
+    @foreach (var item in Model.Catname)
     {
         <span class="badge badge-primary">
-            @item.CatAttribute
+            @item
         </span>
 
     }

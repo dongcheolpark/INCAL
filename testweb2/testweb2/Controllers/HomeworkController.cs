@@ -74,7 +74,17 @@ namespace testweb2.Controllers
             var a = from b in db3.NoteCat.ToList()
                     where b.NoteNo == id
                     select b;
-            var c = new HomeworkDetail(homework, a);
+            List<string> vs = new List<string>();
+            foreach(var item in a)
+            {
+                foreach(var item2 in db2.Category.ToList()) { 
+                    if(int.Parse(item.CatAttribute) == item2.CatId)
+                    {
+                        vs.Add(item2.CatName);
+                    }
+                }
+            }
+            var c = new HomeworkDetail(homework, a, vs);
             return View(c);
         }
 
@@ -115,13 +125,13 @@ namespace testweb2.Controllers
 
                 db3.SaveChanges();
 
-                Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                /*Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse("110.10.38.94"), 1503);
                 client.Connect(iPEndPoint);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index");*/
             }
 
-            return View(homework);
+            return Redirect("~/homework");
         }
 
         // GET: Homework/Edit/5

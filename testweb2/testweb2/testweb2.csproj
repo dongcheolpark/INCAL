@@ -202,13 +202,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201812311117455_InitialCreate.cs" />
-    <Compile Include="Migrations\201812311117455_InitialCreate.Designer.cs">
-      <DependentUpon>201812311117455_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201903311342425_NoteCat.cs" />
     <Compile Include="Migrations\201903311342425_NoteCat.Designer.cs">
       <DependentUpon>201903311342425_NoteCat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002020146363_vote.cs" />
+    <Compile Include="Migrations\202002020146363_vote.Designer.cs">
+      <DependentUpon>202002020146363_vote.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
@@ -217,9 +217,11 @@
     <Compile Include="Models\image.cs" />
     <Compile Include="Models\Students.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Models\VotingSys.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="favicon.ico" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.css" />
@@ -266,7 +268,6 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
-    <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -385,11 +386,11 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201812311117455_InitialCreate.resx">
-      <DependentUpon>201812311117455_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903311342425_NoteCat.resx">
       <DependentUpon>201903311342425_NoteCat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002020146363_vote.resx">
+      <DependentUpon>202002020146363_vote.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

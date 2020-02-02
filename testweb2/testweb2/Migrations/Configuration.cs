@@ -1,20 +1,18 @@
-namespace testweb2.Migrations
+﻿namespace testweb2.Migrations
 {
     using System;
     using System.Data.Entity;
-    using MvcMovie.Models;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<HomeworkDBContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<testweb2.Models.VoteResDBContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "MvcMovie.Models.HomeworkDBContext";
         }
 
-        protected override void Seed(HomeworkDBContext context)
+        protected override void Seed(testweb2.Models.VoteResDBContext context)
         {
             //  This method will be called after migrating to the latest version.
 
