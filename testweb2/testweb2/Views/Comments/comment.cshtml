@@ -15,29 +15,32 @@
         </div>
     </div>
 </form>
-<div class="container">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="page-header">
-                <h1>
-                    <small class="pull-right">@ViewBag.CommentsCount Comments </small>
-                </h1>
-            </div>
-            <div class="comments-list">
-                @foreach (var item in Model)
-                {
-                    <div style="width:100%">
-                        <p class="text-sm-right">
-                            @item.UserName 님  
-                            <button style="margin-left:10px" class="btn btn-outline-danger" onclick="deletecomments(@item.CommentNo)">제거</button>
-                        </p>
-                        <p class="text-left"><h5>@item.CommentContents</h5></p>
-                        <br />
+
+<div class="comments-area" style="margin-left:10%;margin-right:10%">
+    <h4>@ViewBag.CommentsCount Comments</h4>
+    <div class="comment-list">
+        @foreach (var item in Model)
+        {
+            <div class="single-comment justify-content-between d-flex" style="padding-top:15px">
+                <div class="user justify-content-between d-flex">
+                    <div class="thumb">
+                        <img src="/img/comment/comments-icon.png" alt="">
                     </div>
-                    <hr />
-                }
+                    <div class="desc">
+                        <p class="comment">
+                            @item.CommentContents
+                        </p>
+                        <div class="d-flex justify-content-between">
+                            <div class="d-flex align-items-center">
+                                <h5>
+                                    <a href="#">@item.UserName</a>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        }
     </div>
 </div>
 

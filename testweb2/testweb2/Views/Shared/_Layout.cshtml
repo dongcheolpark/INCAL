@@ -3,10 +3,23 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon.png">
+    <link rel="stylesheet" href="/Content/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/owl.carousel.min.css">
+    <link rel="stylesheet" href="/Content/magnific-popup.css">
+    <link rel="stylesheet" href="/Content/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/themify-icons.css">
+    <link rel="stylesheet" href="/Content/nice-select.css">
+    <link rel="stylesheet" href="/Content/flaticon.css">
+    <link rel="stylesheet" href="/Content/animate.css">
+    <link rel="stylesheet" href="/Content/slicknav.css">
+    <link rel="stylesheet" href="/Content/style.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico" 
+    <link rel="shortcut icon" type="image/x-icon" href="~/favicon.ico"
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery.min.js"></script>
 
@@ -31,84 +44,85 @@
 </head>
 <body>
     <header>
-        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">INCAL</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <div class="header-area ">
+            <div id="sticky-header" class="main-header-area ">
+                <div class="container-fluid p-0">
+                    <div class="row align-items-center justify-content-between no-gutters">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo-img">
+                                <a href="/home/index">
+                                    <img src="img/logo.png" alt="">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-8">
+                            <div class="main-menu  d-none d-lg-block">
+                                <nav>
+                                    <ul id="navigation">
+                                        @try
+                                        {
+                                            if (Session["UserName"] != null && (Session["UserClass"].ToString() == "Teacher" || Session["UserClass"].ToString() == "Admin"))
+                                            {
+                                                <li>
+                                                    <a href="#">선생님 페이지 <i class="ti-angle-down"></i></a>
+                                                    <ul class="submenu">
+                                                        <li><a href="/homework/create">과제추가</a></li>
+                                                        <li><a href="/Teacher/AddCat">카테고리추가</a></li>
+                                                        <li><a href="/Teacher/ClassNoti">교실알림전송</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                            if (Session["UserName"] != null && (Session["UserClass"].ToString() == "Student" || Session["UserClass"].ToString() == "Admin"))
+                                            {
+                                                <li>
+                                                    <a href="#">학생메뉴 <i class="ti-angle-down"></i></a>
+                                                    <ul class="submenu">
+                                                        <li><a href="/Student/Settings">학생페이지</a></li>
+                                                        <li><a href="/Student/ClassNotiList">교실알림내역</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+                                            if (Session["UserName"] != null && Session["UserClass"].ToString() == "Admin")
+                                            {
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/home/index">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            과제
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="/homework">과제 보기</a>
+                                                <li><a href="/admin">관리자페이지</a></li>
+                                            }
+                                        }
+                                        catch (Exception E)
+                                        {
+
+                                        }
+                                    </ul>
+                                </nav>
+                            </div>
                         </div>
 
-                    </li>
-                    @try
-                    {
-                        if (Session["UserName"] != null && (Session["UserClass"].ToString() == "Teacher" || Session["UserClass"].ToString() == "Admin"))
-                        {
-                            <li class=" nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    선생님 페이지
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/homework/create">과제추가</a>
-                                    <a class="dropdown-item" href="/Teacher/AddCat">카테고리추가</a>
-                                    <a class="dropdown-item" href="/Teacher/ClassNoti">교실알림전송</a>
+                        <div class="col-xl-2 col-lg-2 d-none d-lg-block">
+                            @if (Session["UserName"] != null)
+                            {
+                                <span class="text-secondary mr-sm-4">@Session["UserName"].ToString() 님 안녕하세요!  </span>
+                                <form method="post" action="/Users/Login">
+                                    @Html.AntiForgeryToken()
+                                    <input name="btnSubmit" class="btn btn-outline-primary my-2 my-sm-2" type="submit" value="로그아웃" />
+                                </form>
+                            }
+                            else
+                            {
+                                <div class="buy_ticket">
+                                    <a href="/users/login" class="boxed-btn-white">Login</a>
                                 </div>
-                            </li>
-                        }
-                        if (Session["UserName"] != null && (Session["UserClass"].ToString() == "Student" || Session["UserClass"].ToString() == "Admin"))
-                        {
-                            <li class=" nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    학생 메뉴
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/Student/Settings">학생 페이지</a>
-                                </div>
-                            </li>
-                        }
-                        if (Session["UserName"] != null && Session["UserClass"].ToString() == "Admin")
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" href="/admin">관리자 페이지</a>
-                            </li>
-                        }
-                    }
-                    catch (Exception E)
-                    {
-
-                    }
-                </ul>
-                @if (Session["UserName"] != null)
-                {
-                    <span class="text-secondary mr-sm-4">@Session["UserName"].ToString() 님 안녕하세요!  </span>
-                    <form method="post" action="/Users/Login">
-                        @Html.AntiForgeryToken()
-                        <input name="btnSubmit" class="btn btn-outline-primary my-2 my-sm-2" type="submit" value="로그아웃" />
-                    </form>
-                }
-                else
-                {
-                    <div class="btn-group my-2 my-lg-0">
-                        <a class="btn btn-outline-primary my-2 my-sm-0" href="/users/login">Login</a>
-                        <a class="btn btn-outline-primary my-2 my-sm-0" href="/users/create">register</a>
+                            }
+                        </div>
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
                     </div>
-                }
+                </div>
             </div>
-        </nav>
+        </div>
     </header>
-    <div class="container body-content">
-        <br />
+
+    <div>
         @RenderBody()
         <hr />
         <footer>
@@ -116,6 +130,34 @@
         </footer>
     </div>
     <script src="~/Scripts/Site.js"></script>
+    <script src="/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="/js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="/js/ajax-form.js"></script>
+    <script src="/js/waypoints.min.js"></script>
+    <script src="/js/jquery.counterup.min.js"></script>
+    <script src="/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/scrollIt.js"></script>
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <script src="/js/wow.min.js"></script>
+    <script src="/js/nice-select.min.js"></script>
+    <script src="/js/jquery.slicknav.min.js"></script>
+    <script src="/js/jquery.magnific-popup.min.js"></script>
+    <script src="/js/jquery.countdown.js"></script>
+    <script src="/js/plugins.js"></script>
+
+
+    <script src="js/contact.js"></script>
+    <script src="js/jquery.ajaxchimp.min.js"></script>
+    <script src="js/jquery.form.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/mail-script.js"></script>
+
+    <script src="js/main.js"></script>
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

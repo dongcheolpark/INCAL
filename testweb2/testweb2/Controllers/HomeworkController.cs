@@ -95,14 +95,15 @@ namespace testweb2.Controllers
             {
                 if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
                 {
-                    return View("ClassError");
+                    return RedirectToAction("PermitionEr", "Error");
+
                 }
                 
                 return View(db2.Category.ToList());
             }
             catch
             {
-                return View("ClassError");
+                return RedirectToAction("LoginEr", "Error");
             }
         }
 
@@ -112,26 +113,39 @@ namespace testweb2.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "NoteNo,Subject,T_Name,Contents,Title,Date")] Homework homework,string[] checkbox)
         {
-            if (ModelState.IsValid)
+            try
             {
-                homework.T_Name = Session["UserName"].ToString();
-                db.Homework.Add(homework);
-                db.SaveChanges();
-
-                for (int i = 0; i < checkbox.Length; i++)
+                if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
                 {
-                    db3.NoteCat.Add(new NoteCat() {NoteNo = homework.NoteNo, CatAttribute = checkbox[i] });
+                    return RedirectToAction("PermitionEr", "Error");
+
                 }
 
-                db3.SaveChanges();
+                if (ModelState.IsValid)
+                {
+                    homework.T_Name = Session["UserName"].ToString();
+                    db.Homework.Add(homework);
+                    db.SaveChanges();
 
-                /*Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse("110.10.38.94"), 1503);
-                client.Connect(iPEndPoint);
-                return RedirectToAction("Index");*/
+                    for (int i = 0; i < checkbox.Length; i++)
+                    {
+                        db3.NoteCat.Add(new NoteCat() { NoteNo = homework.NoteNo, CatAttribute = checkbox[i] });
+                    }
+
+                    db3.SaveChanges();
+
+                    /*Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    IPEndPoint iPEndPoint = new IPEndPoint(IPAddress.Parse("110.10.38.94"), 1503);
+                    client.Connect(iPEndPoint);
+                    return RedirectToAction("Index");*/
+                }
+
+                return Redirect("~/homework");
             }
-
-            return Redirect("~/homework");
+            catch
+            {
+                return RedirectToAction("LoginEr", "Error");
+            }
         }
 
         // GET: Homework/Edit/5

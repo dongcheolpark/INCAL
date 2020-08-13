@@ -14,6 +14,7 @@ namespace testweb2.Controllers
     {
         private UserCategoriesDBcontext db = new UserCategoriesDBcontext();
         private CategoryDBcontext db2 = new CategoryDBcontext();
+        private ClassNotiDBcontext db3 = new ClassNotiDBcontext();
 
         // GET: student
         public ActionResult Settings()
@@ -57,7 +58,20 @@ namespace testweb2.Controllers
             db.SaveChanges();
             return RedirectToAction("Settings");
         }
-        
+        public ActionResult ClassNotiList()
+        {
+            return View(db3.ClassNotis.ToList());
+        }
+        [HttpPost]
+        public ActionResult ClassNotiList(string Grade,string Class)
+        {
+            string str = Grade + "0" + Class;
+            var a = from b in db3.ClassNotis.ToList()
+                    where b.ClassNoticlass == str
+                    select b;
+            return View(a);
+        }
+
         /*[HttpPost]
         public ActionResult ChangeCat()
         {

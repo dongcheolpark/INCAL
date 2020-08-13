@@ -26,32 +26,58 @@ namespace testweb2.Controllers
             {
                 if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
                 {
-                    return View("ClassError");
+                    return RedirectToAction("PermitionEr", "Error");
+
                 }
 
                 return View(db.Category.ToList());
             }
             catch
             {
-                return View("ClassError");
+                return RedirectToAction("LoginEr", "Error");
             }
         }
 
         [HttpPost]
         public ActionResult AddCat([Bind(Include ="CatId,CatName,CatAttribute")]Category category)
         {
-            if (ModelState.IsValid)
+            try
             {
-                db.Category.Add(category);
-                db.SaveChanges();
+                if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
+                {
+                    return RedirectToAction("PermitionEr", "Error");
+
+                }
+                if (ModelState.IsValid)
+                {
+                    db.Category.Add(category);
+                    db.SaveChanges();
+                    return View(db.Category.ToList());
+                }
                 return View(db.Category.ToList());
             }
-            return View(db.Category.ToList());
+            catch
+            {
+                return RedirectToAction("LoginEr", "Error");
+            }
         }
 
         public ActionResult ClassNoti()
         {
-            return View("ClassNoti");
+            try
+            {
+                if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
+                {
+                    return RedirectToAction("PermitionEr", "Error");
+
+                }
+
+                return View("ClassNoti");
+            }
+            catch
+            {
+                return RedirectToAction("LoginEr", "Error");
+            }
         }
 
        /* [HttpPost]
@@ -78,26 +104,35 @@ namespace testweb2.Controllers
         [HttpPost]
         public ActionResult ClassNoti(string ClassNotiText, string ClassNotiAttribute, string[] checkbox)
         {
-            string str = null;
-            for (int i= 0; i < checkbox.Length; i++)
+            try
             {
-                if (i == checkbox.Length - 1)
-                    str += checkbox[i];
-                else
-                    str += checkbox[i] + ",";
-            }
+                if (!Authen.Certification(Session["UserClass"].ToString(), Authen.UserClass.Teacher))
+                {
+                    return RedirectToAction("PermitionEr", "Error");
 
-            ClassNoti a = new ClassNoti()
+                }
+
+                string str = null;
+                for (int i = 0; i < checkbox.Length; i++)
+                {
+                    ClassNoti a = new ClassNoti()
+                    {
+                        ClassNotiAttribute = ClassNotiAttribute,
+                        ClassNoticlass = checkbox[i],
+                        ClassNotiText = ClassNotiText,
+                        ClassNotiTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                    };
+                    db3.ClassNotis.Add(a);
+                }
+                db3.SaveChanges();
+                return View();
+            }
+            catch
             {
-                ClassNotiAttribute = ClassNotiAttribute,
-                ClassNoticlass = str,
-                ClassNotiText = ClassNotiText,
-                ClassNotiTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-            };
-            db3.ClassNotis.Add(a);
-            db3.SaveChanges();
-            return View();
+                return RedirectToAction("LoginEr", "Error");
+            }
         }
+
 
         public ActionResult DeleteCat(int id)
         {
