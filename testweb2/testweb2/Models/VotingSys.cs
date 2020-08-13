@@ -40,7 +40,7 @@ namespace testweb2.Models
         public DbSet<VotesInfo> VotesInfos { get; set; }
         public DbSet<VotesData> VotesDatas { get; set; }
 
-        public System.Data.Entity.DbSet<testweb2.Models.VoteRes> VoteRes { get; set; }
+        public DbSet<testweb2.Models.VoteRes> VoteRes { get; set; }
     }
 
     public class VoteResDBContext : DbContext

@@ -7,13 +7,13 @@ namespace testweb2.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.3.0-preview7-19363-02")]
-    public sealed partial class vote : IMigrationMetadata
+    public sealed partial class addclassnoti : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(vote));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addclassnoti));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002020146363_vote"; }
+            get { return "202008130156319_addclassnoti"; }
         }
         
         string IMigrationMetadata.Source

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
 using testweb2.Func;
 using testweb2.Models;
 
@@ -15,6 +17,7 @@ namespace testweb2.Controllers
     {
         private CategoryDBcontext db = new CategoryDBcontext();
         private UserCategoriesDBcontext db2 = new UserCategoriesDBcontext();
+        private ClassNotiDBcontext db3 = new ClassNotiDBcontext();
 
         // GET: Teacher
         public ActionResult AddCat()
@@ -44,6 +47,56 @@ namespace testweb2.Controllers
                 return View(db.Category.ToList());
             }
             return View(db.Category.ToList());
+        }
+
+        public ActionResult ClassNoti()
+        {
+            return View("ClassNoti");
+        }
+
+       /* [HttpPost]
+        public ActionResult ClassNoti(string ClassNotiText,string ClassNotiAttribute, string[] checkbox)
+        {
+            string strConn = "Data Source = icpu.club,14330; Initial Catalog = AfterSchool2019 - 1; Persist Security Info = True; User ID = inchang_s; Password = inchang_s ?";
+
+            using (SqlConnection conn = new SqlConnection(strConn)) {
+                string sql = @"INSERT INTO [dbo].[NotifyDB]([NotifyTime],[Type],[Content],[NotifyClass])VALUES(CONVERT(varchar(20), getDate(), 20),@type,@content,@classN)";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                for (int i = 0; i < checkbox.Length; i++)
+                {
+                    cmd.Parameters.AddWithValue("@type", ClassNotiText);
+                    cmd.Parameters.AddWithValue("@content", ClassNotiAttribute);
+                    cmd.Parameters.AddWithValue("@classN", int.Parse(checkbox[i]));
+                    conn.Open();
+                    cmd.ExecuteReader();
+                    conn.Close();
+                }
+            }
+            return View();
+        }*/
+
+        [HttpPost]
+        public ActionResult ClassNoti(string ClassNotiText, string ClassNotiAttribute, string[] checkbox)
+        {
+            string str = null;
+            for (int i= 0; i < checkbox.Length; i++)
+            {
+                if (i == checkbox.Length - 1)
+                    str += checkbox[i];
+                else
+                    str += checkbox[i] + ",";
+            }
+
+            ClassNoti a = new ClassNoti()
+            {
+                ClassNotiAttribute = ClassNotiAttribute,
+                ClassNoticlass = str,
+                ClassNotiText = ClassNotiText,
+                ClassNotiTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            };
+            db3.ClassNotis.Add(a);
+            db3.SaveChanges();
+            return View();
         }
 
         public ActionResult DeleteCat(int id)

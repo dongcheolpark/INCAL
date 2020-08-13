@@ -203,15 +203,14 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\201903311342425_NoteCat.cs" />
-    <Compile Include="Migrations\201903311342425_NoteCat.Designer.cs">
-      <DependentUpon>201903311342425_NoteCat.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002020146363_vote.cs" />
-    <Compile Include="Migrations\202002020146363_vote.Designer.cs">
-      <DependentUpon>202002020146363_vote.cs</DependentUpon>
+    <Compile Include="Migrations\201903311342425_NoteCat.Designer.cs" />
+    <Compile Include="Migrations\202008130156319_addclassnoti.cs" />
+    <Compile Include="Migrations\202008130156319_addclassnoti.Designer.cs">
+      <DependentUpon>202008130156319_addclassnoti.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\ClassNoti.cs" />
     <Compile Include="Models\comment.cs" />
     <Compile Include="Models\homework.cs" />
     <Compile Include="Models\image.cs" />
@@ -375,6 +374,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\student\Settings.cshtml" />
     <Content Include="Views\student\ChangeCat.cshtml" />
+    <Content Include="Views\Teacher\ClassNoti.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -386,15 +386,13 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201903311342425_NoteCat.resx">
-      <DependentUpon>201903311342425_NoteCat.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002020146363_vote.resx">
-      <DependentUpon>202002020146363_vote.cs</DependentUpon>
-    </EmbeddedResource>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="Scripts\index.d.ts" />
+    <EmbeddedResource Include="Migrations\201903311342425_NoteCat.resx" />
+    <EmbeddedResource Include="Migrations\202008130156319_addclassnoti.resx">
+      <DependentUpon>202008130156319_addclassnoti.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
